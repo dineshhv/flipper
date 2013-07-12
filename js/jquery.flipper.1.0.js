@@ -151,7 +151,7 @@
 			});
 	   		
 	   		i++;
-   		var time=setTimeout(tick, 100);
+   		var time=setTimeout(tick, 10);
 		})();
 		//window.clearTimeout(time);
    }
