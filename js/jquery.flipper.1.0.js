@@ -23,11 +23,14 @@
           speed		: 1000,
           direction	: "incr",
           type 		: "alphanum",	//alphanum, alpha, numeric
-          sequential: "false"
+          sequential: "false",
+          jump		: 3,
+          trigger	: true
           
        }, options || {});
        
        var matched, browser;
+      
        jQuery.uaMatch = function( ua ) {
 	   ua = ua.toLowerCase();
 	   var match = /(chrome)[ \/]([\w.]+)/.exec( ua ) ||
@@ -59,11 +62,23 @@
 		}
 		
 		jQuery.browser = browser;
-		
-       counter(elem, settings, matched.browser);
+	
+	
+	   if(settings.trigger==true)
+	   {
+		  $('button').bind('click',function(e){
+			  e.preventDefault();
+			  console.log()
+			  counter(elem, settings, matched.browser);
+	          animate(elem, settings, matched.browser);
+		  });
+	   }
+	   else
+	   {
+       counter(elem, settings, matched.browser,time);
       
-       animate(elem, settings, matched.browser);
-      
+       animate(elem, settings, matched.browser,time);
+       }
        
        // Public method
        this.addhighlight = function()
@@ -76,6 +91,7 @@
    {
 		
 		ID=element.attr('id');
+		$('#'+ID).empty();
 
 		$('#'+ID).each(function( index ) {
 			if(options.type=='alphanum')
@@ -104,6 +120,10 @@
    }
    function animate(element, options, browser) 
    {
+   		var time;
+   		i=0;
+		var flag=[];
+   		
    		ID=element.attr('id');
    		textlength=options.target.length;
    		if(options.type=='alphanum')
@@ -118,22 +138,22 @@
 		{
 			var arr = [1,2,3,4,5,6,7,8,9,0];
 		}
-		i=0;
-		var flag=[];
+		
 		for(ins=0;ins<=textlength;ins++)
 		{
 			flag[ins]=0;
 		}
 		
-   		(function tick(){
-   			
-	   		$('#'+ID+' #myflip li').each(function( index ) {
+		
+		var inte=self.setInterval(function(){
+			$('#'+ID+' #myflip li').each(function( index ) {
 	   			crid=$(this).attr('id');
 	   			
 				digit=$(this).data('dig').toString();
+				
 				if(flag[crid]!=1)
 				{
-					//console.log(crid);
+					
 					if(digit.toLowerCase()==arr[i])
 					{
 						$('#'+crid).text(arr[i]);
@@ -148,13 +168,28 @@
 					    $('#'+crid).text(arr[i]);
 					}
 				}
+				else
+				{	
+					console.log('test');
+					tot=0;
+					$.each(flag,function(key,index){
+						tot+=parseInt(this);
+					});
+					if(tot==textlength)
+					{
+						clearInterval(inte);
+					}
+					
+				}
 			});
 	   		
 	   		i++;
-   		var time=setTimeout(tick, 100);
-		})();
-		//window.clearTimeout(time);
+			
+		},10);
+	
    }
+  
+   
   function isAlphanumeric( str ) {
 	  return /^[0-9]+$/.test(str);
   }
