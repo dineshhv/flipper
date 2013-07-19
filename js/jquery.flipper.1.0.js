@@ -25,7 +25,8 @@
           type 		: "alphanum",	//alphanum, alpha, numeric
           sequential: "false",
           jump		: 3,
-          trigger	: true
+          trigger	: false,
+          button	: '#trigger'
           
        }, options || {});
        
@@ -63,21 +64,21 @@
 		
 		jQuery.browser = browser;
 	
-	
+	console.log(settings.button);
 	   if(settings.trigger==true)
 	   {
-		  $('button').bind('click',function(e){
+		  $(settings.button).bind('click',function(e){
 			  e.preventDefault();
-			  console.log()
+			  
 			  counter(elem, settings, matched.browser);
 	          animate(elem, settings, matched.browser);
 		  });
 	   }
 	   else
 	   {
-       counter(elem, settings, matched.browser,time);
+       counter(elem, settings, matched.browser);
       
-       animate(elem, settings, matched.browser,time);
+       animate(elem, settings, matched.browser);
        }
        
        // Public method
@@ -156,7 +157,7 @@
 					
 					if(digit.toLowerCase()==arr[i])
 					{
-						$('#'+crid).text(arr[i]);
+						$('#'+ID).find('#'+crid).text(arr[i]);
 						myv=parseInt(crid);
 						
 						flag[myv]=1;
@@ -165,7 +166,7 @@
 					}
 					else
 					{	
-					    $('#'+crid).text(arr[i]);
+					    $('#'+ID).find('#'+crid).text(arr[i]);
 					}
 				}
 				else
