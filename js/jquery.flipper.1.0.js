@@ -107,13 +107,23 @@
 			}
 			else if(options.type=='alpha')
 			{
-				$(this).html(options.target);	
+				textlength=options.target.toString().length;
+				
+				$(this).append('<ul id="myflip"></ul>');
+				for(i=0;i<textlength;i++)
+				{
+					$(this).children('#myflip').append('<li id="'+i+'" data-dig='+options.target[i]+'></li>');
+				}	
 			}
 			else if(options.type=='numeric')
 			{
-				length=options.target.toString().length;
-				console.log(length);
-				$(this).html(options.target);	
+				textlength=options.target.toString().length;
+				
+				$(this).append('<ul id="myflip"></ul>');
+				for(i=0;i<textlength;i++)
+				{
+					$(this).children('#myflip').append('<li id="'+i+'" data-dig='+options.target[i]+'></li>');
+				}
 			}
 
 		});
